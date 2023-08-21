@@ -32,7 +32,7 @@ public class UserDto {
     @NotBlank(message = "Enter Gender")
     private String gender;
 
-    @NotBlank(message = "Write About Yourself")
+    @NotBlank(message = "Write few details About Yourself")
     private String about;
 
     @ImageNameValid
