@@ -3,7 +3,6 @@ package com.lcwd.electronic.store.controllers;
 import com.lcwd.electronic.store.dtos.ApiResponseMessage;
 import com.lcwd.electronic.store.dtos.CategoryDto;
 import com.lcwd.electronic.store.dtos.PageableResponse;
-import com.lcwd.electronic.store.dtos.UserDto;
 import com.lcwd.electronic.store.services.CategoryService;
 import com.lcwd.electronic.store.services.Implementation.UserServiceImplementation;
 import jakarta.validation.Valid;
