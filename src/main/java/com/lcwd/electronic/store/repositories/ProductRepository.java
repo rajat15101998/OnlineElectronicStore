@@ -1,5 +1,6 @@
 package com.lcwd.electronic.store.repositories;
 
+import com.lcwd.electronic.store.entities.Category;
 import com.lcwd.electronic.store.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     //find live products
     List<Product> findByLiveTrue();
+
+    //find all products by category
+    List<Product> findByCategory(Category category);
 }

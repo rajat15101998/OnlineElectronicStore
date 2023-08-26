@@ -31,4 +31,10 @@ public interface ProductService {
     //create Product with category
     ProductDto createWithCategory(ProductDto productDto, String categoryId);
 
+    //update category of product
+    ProductDto updatedProductCategory(String productId, String categoryId);
+
+    //fetch all products of a particular category
+    List<ProductDto> getProductsByCategory(String categoryId);
+
 }
