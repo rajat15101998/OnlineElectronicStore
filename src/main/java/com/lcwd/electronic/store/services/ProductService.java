@@ -28,4 +28,7 @@ public interface ProductService {
     //get All live products
     List<ProductDto> getAllLiveProducts();
 
+    //create Product with category
+    ProductDto createWithCategory(ProductDto productDto, String categoryId);
+
 }

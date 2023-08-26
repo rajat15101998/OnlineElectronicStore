@@ -1,10 +1,13 @@
 package com.lcwd.electronic.store.services.Implementation;
 
+import com.lcwd.electronic.store.dtos.CategoryDto;
 import com.lcwd.electronic.store.dtos.PageableResponse;
 import com.lcwd.electronic.store.dtos.ProductDto;
+import com.lcwd.electronic.store.entities.Category;
 import com.lcwd.electronic.store.entities.Product;
 import com.lcwd.electronic.store.exceptions.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.Helper;
+import com.lcwd.electronic.store.repositories.CategoryRepository;
 import com.lcwd.electronic.store.repositories.ProductRepository;
 import com.lcwd.electronic.store.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -35,6 +38,10 @@ public class ProductServiceImplementation implements ProductService {
     //to convert entity and Dto into each other
     @Autowired
     private ModelMapper mapper;
+
+    //to use category details
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public ProductDto createProduct(ProductDto productDto) {
@@ -129,5 +136,31 @@ public class ProductServiceImplementation implements ProductService {
         //convert the entity list into Dto List
         List<ProductDto> productDtoList = byLiveTrue.stream().map(product -> mapper.map(product, ProductDto.class)).collect(Collectors.toList());
         return productDtoList;
+    }
+
+    @Override
+    public ProductDto createWithCategory(ProductDto productDto, String categoryId) {
+        //fetch category
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("No Category found with given Id"));
+        //convert category entity into Dto
+        CategoryDto categoryDto = mapper.map(category, CategoryDto.class);
+
+        //generate Id for Product
+        String productId = UUID.randomUUID().toString();
+        productDto.setProductId(productId);
+        //generate AddedDate
+        productDto.setAddedDate(new Date());
+
+        //set category into product
+        productDto.setCategory(categoryDto);
+
+        //convert dto to entity
+        Product product = mapper.map(productDto, Product.class);
+        //save into product table
+        Product createdProduct = productRepository.save(product);
+        //convert product entity to dto
+        ProductDto createdProductDto = mapper.map(createdProduct, ProductDto.class);
+
+        return createdProductDto;
     }
 }

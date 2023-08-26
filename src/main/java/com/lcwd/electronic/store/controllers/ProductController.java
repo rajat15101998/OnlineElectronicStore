@@ -99,4 +99,14 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(allLiveProducts);
     }
 
+    //create product with Category
+    @PostMapping("/category/{categoryId}")
+    public ResponseEntity<ProductDto> createProductWithCategory(
+            @PathVariable String categoryId,
+            @Valid
+            @RequestBody ProductDto productDto) {
+        ProductDto productWithCategory = productService.createWithCategory(productDto, categoryId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productWithCategory);
+    }
+
 }
