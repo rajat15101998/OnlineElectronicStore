@@ -109,4 +109,23 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productWithCategory);
     }
 
+    //update category of product
+    @PatchMapping("/{productId}/category/{categoryId}")
+    public ResponseEntity<ProductDto> updateProductCategory(
+            @PathVariable String productId,
+            @PathVariable String categoryId
+    ) {
+        ProductDto updatedProductDto = productService.updatedProductCategory(productId, categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedProductDto);
+    }
+
+    //getProductsByCategory
+    @GetMapping("/fetch/{categoryId}")
+    public ResponseEntity<List<ProductDto>> getProductsByCategory(
+            @PathVariable String categoryId
+    ) {
+        List<ProductDto> productsByCategory = productService.getProductsByCategory(categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body(productsByCategory);
+    }
+
 }

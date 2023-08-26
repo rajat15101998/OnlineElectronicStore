@@ -163,4 +163,38 @@ public class ProductServiceImplementation implements ProductService {
 
         return createdProductDto;
     }
+
+    @Override
+    public ProductDto updatedProductCategory(String productId, String categoryId) {
+        //fetch product using Id
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("No Product Found with given Id"));
+
+        //fetch category
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("No Category found with given Id"));
+
+        //update category of Product
+        product.setCategory(category);
+
+        //update in product table in database
+        Product updatedProduct = productRepository.save(product);
+
+        //convert product entity to Dto
+        ProductDto updatedProductDto = mapper.map(updatedProduct, ProductDto.class);
+
+        return updatedProductDto;
+    }
+
+    @Override
+    public List<ProductDto> getProductsByCategory(String categoryId) {
+        //fetch category
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("No Category found with given Id"));
+
+        //fetch all products which belong to given categoryId
+        List<Product> productByCategory = productRepository.findByCategory(category);
+
+        //convert entity list into Dto
+        List<ProductDto> productDtoByCategory = productByCategory.stream().map(product -> mapper.map(product, ProductDto.class)).collect(Collectors.toList());
+
+        return productDtoByCategory;
+    }
 }
